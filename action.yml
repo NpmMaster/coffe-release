@@ -5,7 +5,28 @@ branding:
   icon: 'coffee'
   color: 'white'
 
+inputs:
+  token:
+    description: 'The token to acess the project'
+    required: false
+    default: ''
+  registry:
+    description: 'The registry url'
+    required: false
+    default: ''
+  tag:
+    description: 'The tag of the published project (IF ITS PUBLIC OR NOT)'
+    required: false
+    default: ''
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+    - name: "Configure Publish"
+      uses: JS-DevTohols/npm-publish@v3.1.1
+      with:
+        token: ${{ input.token }}
+        registry: ${{ input.registry }}
+        tag: ${{ inputs.tag }} 
+        
